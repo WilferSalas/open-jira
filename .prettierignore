@@ -1,0 +1,9 @@
+# Ignore dependencies
+node_modules
+
+# Ignore production
+.next
+
+# Ignore artifacts:
+build
+coverage
