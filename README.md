@@ -1,10 +1,12 @@
-# NextJS baseline
+# Open Jirea -- Project in Progress
 
 ---
 
 ## Description:
 
-NextJS baseline with TypeScript and MUI V5
+Project made with React, TypeScript and MUI
+
+Site deployed with Vercel: https://open-jira-wilfersalas.vercel.app/
 
 # Requeriments:
 
@@ -13,14 +15,14 @@ NextJS baseline with TypeScript and MUI V5
 
 # Installation:
 
-Open a console (terminal) and create the **next-baseline**'s folder. Once folder is created, follow this instructions
+Open a console (terminal) and create the **open-jira**'s folder. Once folder is created, follow this instructions
 
 ```bash
 # Clone project
-$ git clone https://github.com/WilferSalas/next-baseline.git
+$ git clone https://github.com/WilferSalas/open-jira.git
 
 # Enter to project's folder
-$ cd next-baseline
+$ cd open-jira
 
 # Install dependencies
 $ npm i
