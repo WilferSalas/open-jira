@@ -23,6 +23,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "react-hook-form": "^7.31.2",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
