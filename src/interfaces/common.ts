@@ -1,5 +1,5 @@
 // @packages
-import { ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 export interface Action {
   type: string,
@@ -12,4 +12,8 @@ export interface Children {
 
 export interface ObjectStructure {
   [key: string]: string;
+}
+
+export interface IconsObject {
+  [key: string]: ReactElement;
 }
