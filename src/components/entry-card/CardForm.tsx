@@ -12,12 +12,11 @@ import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import { FC } from 'react';
 import { red, green } from '@mui/material/colors';
-import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 // @scripts
 import { Entry } from '../../interfaces';
 import { priorityIcons } from './CardItem';
-import { Typography } from '@mui/material';
 
 // @interfaces
 interface Props {
@@ -25,11 +24,6 @@ interface Props {
   onSave: () => void;
   openFormIssue: boolean;
   type: Entry['status'];
-}
-
-interface FormInput {
-  title: string;
-  priority: {label: string; value: string };
 }
 
 const CardForm: FC<Props> = ({
@@ -45,8 +39,7 @@ const CardForm: FC<Props> = ({
     register,
   } = useForm();
 
-  const onSubmit: SubmitHandler<FormInput> = (data) => {
-    console.log(data);
+  const onSubmit = () => {
     onSave();
   };
 
