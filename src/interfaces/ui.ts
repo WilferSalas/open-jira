@@ -1,4 +1,6 @@
 export interface UI {
-  openSettingsMenu: boolean;
+  isAddingEntry: boolean;
+  onIsAddingEntry: (isAding: boolean) => void;
   onOpenSettingsMenu: () => void;
+  openSettingsMenu: boolean;
 }

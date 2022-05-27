@@ -32,7 +32,8 @@
     ],
     "react/jsx-props-no-spreading": "off",
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": ["error"]
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "no-underscore-dangle": "off"
   },
   "settings": {
     "import/resolver": {

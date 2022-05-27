@@ -1,12 +1,7 @@
 // @package
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import {
-  FC,
-  useContext,
-  useMemo,
-  useState,
-} from 'react';
+import { FC, useContext, useMemo } from 'react';
 import { grey } from '@mui/material/colors';
 
 // @scripts
@@ -14,6 +9,7 @@ import CardForm from './CardForm';
 import CardHeader from './CardHeader';
 import CardItem from './CardItem';
 import EntriesContext from '../../context/entries/EntriesContext';
+import UIContext from '../../context/ui/UIContext';
 import { Entry } from '../../interfaces';
 import { getTheme } from '../../utils';
 
@@ -25,24 +21,23 @@ interface EntryCardProps {
 }
 
 const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
-  const [openCardForm, setOpenCardForm] = useState(false);
-
   const { onAddEntry } = useContext(EntriesContext);
+  const { onIsAddingEntry, isAddingEntry } = useContext(UIContext);
 
   const isDarkMode = getTheme() === 'dark' || getTheme() === 'system';
   const entriesData = useMemo(() => entries.filter((entry) => entry.status === type), [entries]);
 
   const handleOnopenCardForm = () => {
-    setOpenCardForm(true);
+    onIsAddingEntry(true);
   };
 
   const handleOnCloseIssue = () => {
-    setOpenCardForm(false);
+    onIsAddingEntry(false);
   };
 
   const handleOnSaveIssue = (entry: Entry) => {
     onAddEntry(entry);
-    setOpenCardForm(false);
+    onIsAddingEntry(false);
   };
 
   return (
@@ -65,11 +60,11 @@ const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
         <CardForm
           onClose={handleOnCloseIssue}
           onSave={handleOnSaveIssue}
-          openFormIssue={openCardForm}
+          openFormIssue={isAddingEntry}
           type={type}
         />
         {entriesData.map((entry) => (
-          <CardItem key={entry.title} title={entry.title} priority={entry.priority} />
+          <CardItem key={entry._id} title={entry.title} priority={entry.priority} />
         ))}
       </Paper>
     </Grid>

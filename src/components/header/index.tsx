@@ -2,6 +2,7 @@
 import AppBar from '@mui/material/AppBar';
 import BallotIcon from '@mui/icons-material/Ballot';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Toolbar from '@mui/material/Toolbar';
@@ -38,7 +39,7 @@ const Header: FC<HeaderProps> = ({ onToggleTheme }) => {
 
   return (
     <AppBar position="static">
-      <Toolbar sx={{ justifyContent: 'space-between' }}>
+      <Toolbar component={Container} maxWidth="lg" sx={{ justifyContent: 'space-between' }}>
         <Box
           onClick={handleOnRedirect}
           sx={{ alignItems: 'center', cursor: 'pointer', display: 'flex' }}

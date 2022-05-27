@@ -65,7 +65,7 @@ const CardForm: FC<Props> = ({
   };
 
   return (
-    <Box>
+    <Box component="form" onSubmit={handleSubmit(handleOnSubmit)}>
       {(type === 'to-do' && openFormIssue) && (
       <Paper
         sx={{
@@ -83,6 +83,7 @@ const CardForm: FC<Props> = ({
           rules={{ required: true }}
           render={(({ field }) => (
             <TextField
+              autoFocus
               error={Boolean(errors.title)}
               fullWidth
               placeholder="Add a title..."
@@ -122,7 +123,7 @@ const CardForm: FC<Props> = ({
               </IconButton>
             </Tooltip>
             <Tooltip title="Save">
-              <IconButton onClick={handleSubmit(handleOnSubmit)}>
+              <IconButton type="submit">
                 <CheckIcon sx={{ color: green[700] }} />
               </IconButton>
             </Tooltip>

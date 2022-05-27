@@ -6,7 +6,11 @@ import UIContext from './UIContext';
 
 // #scripts
 import INITIAL_STATE from '../../config/state/initial-state.json';
-import uiReducer, { OPEN_SETTINGS_MENU, UIState } from './uiReducer';
+import uiReducer, {
+  IS_ADDING_ENTRY,
+  OPEN_SETTINGS_MENU,
+  UIState,
+} from './uiReducer';
 import { Children } from '../../interfaces';
 
 const initialState: UIState = INITIAL_STATE.ui;
@@ -18,7 +22,13 @@ const UIProvider = ({ children }: Children) => {
     dispatch({ type: OPEN_SETTINGS_MENU });
   };
 
+  const onIsAddingEntry = (isEntry: boolean) => {
+    dispatch({ type: IS_ADDING_ENTRY, payload: isEntry });
+  };
+
   const contextValue = useMemo(() => ({
+    isAddingEntry: state.isAddingEntry,
+    onIsAddingEntry,
     onOpenSettingsMenu,
     openSettingsMenu: state.openSettingsMenu,
   }), [state]);
