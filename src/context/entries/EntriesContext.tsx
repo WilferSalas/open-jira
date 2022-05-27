@@ -2,13 +2,8 @@
 import { createContext } from 'react';
 
 // @scripts
-import { Entry } from '../../interfaces';
+import { Entries } from '../../interfaces';
 
-// @interfaces
-export interface EntriesContextProps {
-  entries: Entry[]
-}
-
-const EntriesContext = createContext({} as EntriesContextProps);
+const EntriesContext = createContext({} as Entries);
 
 export default EntriesContext;

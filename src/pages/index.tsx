@@ -11,7 +11,7 @@ const Home: FC = () => {
   const { entries } = useContext(EntriesContext);
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 2 }}>
+    <Container maxWidth="lg" sx={{ my: 2 }}>
       <Grid container spacing={2}>
         <EntryCard entries={entries} title="to do" type="to-do" />
         <EntryCard entries={entries} title="in progress" type="in-progress" />

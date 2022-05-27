@@ -2,7 +2,7 @@
 import { Action, Entry } from '../../interfaces';
 
 // @types
-export const TYPE = 'TYPE';
+export const ADD_ENTRY = 'ADD_ENTRY';
 
 // @interfaces
 export interface EntriesState {
@@ -11,6 +11,8 @@ export interface EntriesState {
 
 export default (state: EntriesState, action: Action) => {
   switch (action.type) {
+    case ADD_ENTRY:
+      return { ...state, entries: [...state.entries, action.payload] };
     default:
       return state;
   }

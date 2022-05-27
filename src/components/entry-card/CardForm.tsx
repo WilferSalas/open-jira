@@ -12,7 +12,8 @@ import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import { FC } from 'react';
 import { red, green } from '@mui/material/colors';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { v4 as uuidv4 } from 'uuid';
 
 // @scripts
 import { Entry } from '../../interfaces';
@@ -21,9 +22,14 @@ import { priorityIcons } from './CardItem';
 // @interfaces
 interface Props {
   onClose: () => void;
-  onSave: () => void;
+  onSave: (entry: Entry) => void;
   openFormIssue: boolean;
   type: Entry['status'];
+}
+
+interface Inputs {
+  title: string,
+  priority: Entry['priority'],
 }
 
 const CardForm: FC<Props> = ({
@@ -37,10 +43,25 @@ const CardForm: FC<Props> = ({
     formState: { errors },
     handleSubmit,
     register,
-  } = useForm();
+    reset,
+  } = useForm<Inputs>();
 
-  const onSubmit = () => {
-    onSave();
+  const handleOnSubmit: SubmitHandler<Inputs> = (data) => {
+    const newEntry: Entry = {
+      _id: uuidv4(),
+      createdAt: Date.now(),
+      priority: data.priority,
+      status: 'to-do',
+      title: data.title,
+    };
+
+    reset();
+    onSave(newEntry);
+  };
+
+  const handleOnClose = () => {
+    reset();
+    onClose();
   };
 
   return (
@@ -65,6 +86,7 @@ const CardForm: FC<Props> = ({
               error={Boolean(errors.title)}
               fullWidth
               placeholder="Add a title..."
+              helperText={Boolean(errors.title) && 'Add a title'}
               size="small"
               {...register('title', { required: true, minLength: 1 })}
               {...field}
@@ -95,12 +117,12 @@ const CardForm: FC<Props> = ({
           />
           <Box>
             <Tooltip title="Cancel">
-              <IconButton onClick={onClose}>
+              <IconButton onClick={handleOnClose}>
                 <CloseIcon sx={{ color: red[700] }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Save">
-              <IconButton onClick={handleSubmit(onSubmit)}>
+              <IconButton onClick={handleSubmit(handleOnSubmit)}>
                 <CheckIcon sx={{ color: green[700] }} />
               </IconButton>
             </Tooltip>

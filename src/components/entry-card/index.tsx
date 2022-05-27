@@ -1,13 +1,19 @@
 // @package
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { FC, useMemo, useState } from 'react';
+import {
+  FC,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { grey } from '@mui/material/colors';
 
 // @scripts
 import CardForm from './CardForm';
 import CardHeader from './CardHeader';
 import CardItem from './CardItem';
+import EntriesContext from '../../context/entries/EntriesContext';
 import { Entry } from '../../interfaces';
 import { getTheme } from '../../utils';
 
@@ -20,6 +26,9 @@ interface EntryCardProps {
 
 const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
   const [openCardForm, setOpenCardForm] = useState(false);
+
+  const { onAddEntry } = useContext(EntriesContext);
+
   const isDarkMode = getTheme() === 'dark' || getTheme() === 'system';
   const entriesData = useMemo(() => entries.filter((entry) => entry.status === type), [entries]);
 
@@ -31,8 +40,9 @@ const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
     setOpenCardForm(false);
   };
 
-  const handleOnSaveIssue = () => {
-    setOpenCardForm(true);
+  const handleOnSaveIssue = (entry: Entry) => {
+    onAddEntry(entry);
+    setOpenCardForm(false);
   };
 
   return (
