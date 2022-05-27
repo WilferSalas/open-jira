@@ -51,7 +51,7 @@ const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
         square
         sx={{
           background: isDarkMode ? grey[900] : grey[200],
-          minHeight: 'calc(100vh - 90px)',
+          minHeight: 'calc(100vh - 100px)',
           p: 1,
         }}
         variant="outlined"
