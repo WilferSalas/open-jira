@@ -10,4 +10,5 @@ export interface Entry {
 export interface Entries {
   entries: Entry[];
   onAddEntry: (newEntry: Entry) => void;
+  onUpdateStatus: (id: string, status: Entry['status']) => void;
 }

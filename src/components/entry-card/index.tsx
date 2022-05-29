@@ -1,7 +1,12 @@
 // @package
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { FC, useContext, useMemo } from 'react';
+import {
+  DragEvent,
+  FC,
+  useContext,
+  useMemo,
+} from 'react';
 import { grey } from '@mui/material/colors';
 
 // @scripts
@@ -21,8 +26,8 @@ interface EntryCardProps {
 }
 
 const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
-  const { onAddEntry } = useContext(EntriesContext);
-  const { onIsAddingEntry, isAddingEntry } = useContext(UIContext);
+  const { onAddEntry, onUpdateStatus } = useContext(EntriesContext);
+  const { onIsAddingEntry, isAddingEntry, onDragging } = useContext(UIContext);
 
   const isDarkMode = getTheme() === 'dark' || getTheme() === 'system';
   const entriesData = useMemo(() => entries.filter((entry) => entry.status === type), [entries]);
@@ -40,8 +45,26 @@ const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
     onIsAddingEntry(false);
   };
 
+  const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {
+    const id = event.dataTransfer.getData('text');
+
+    onUpdateStatus(id, type);
+    onDragging(false);
+  };
+
+  const handleOnAllowDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
-    <Grid item xs={12} md={4}>
+    <Grid
+      onDrop={handleOnDrop}
+      onDragOver={handleOnAllowDrop}
+      component="div"
+      item
+      md={4}
+      xs={12}
+    >
       <Paper
         square
         sx={{
@@ -64,7 +87,12 @@ const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
           type={type}
         />
         {entriesData.map((entry) => (
-          <CardItem key={entry._id} title={entry.title} priority={entry.priority} />
+          <CardItem
+            id={entry._id}
+            key={entry._id}
+            priority={entry.priority}
+            title={entry.title}
+          />
         ))}
       </Paper>
     </Grid>

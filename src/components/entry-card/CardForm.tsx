@@ -86,11 +86,11 @@ const CardForm: FC<Props> = ({
               autoFocus
               error={Boolean(errors.title)}
               fullWidth
-              placeholder="Add a title..."
               helperText={Boolean(errors.title) && 'Add a title'}
+              placeholder="Add a title..."
               size="small"
-              {...register('title', { required: true, minLength: 1 })}
               {...field}
+              {...register('title', { required: true, minLength: 1 })}
             />
           ))}
         />

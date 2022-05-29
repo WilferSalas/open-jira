@@ -1,7 +1,8 @@
 {
   "ui": {
-    "openSettingsMenu": false,
-    "isAddingEntry": false
+    "isAddingEntry": false,
+    "isDragging": false,
+    "openSettingsMenu": false
   },
   "entries" : {
     "entries": []
