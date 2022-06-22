@@ -4,6 +4,8 @@ import Head from 'next/head';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 
@@ -25,6 +27,8 @@ interface MyAppProps extends AppProps {
 
 const MyApp = (props: MyAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
+  const [queryClient] = useState(() => new QueryClient());
 
   const [theme, setTheme] = useState<string>('');
 
@@ -54,13 +58,16 @@ const MyApp = (props: MyAppProps) => {
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <EntriesProvider>
-          <UIProvider>
-            <Layout onToggleTheme={onToggleTheme}>
-              <Component {...pageProps} />
-            </Layout>
-          </UIProvider>
-        </EntriesProvider>
+        <QueryClientProvider client={queryClient}>
+          <EntriesProvider>
+            <UIProvider>
+              <Layout onToggleTheme={onToggleTheme}>
+                <Component {...pageProps} />
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Layout>
+            </UIProvider>
+          </EntriesProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </CacheProvider>
   );

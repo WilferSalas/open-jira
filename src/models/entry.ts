@@ -4,7 +4,7 @@ import mongoose, { Model, Schema } from 'mongoose';
 // @scripts
 import { Entry } from '../interfaces';
 
-interface EntryProps extends Entry {}
+export interface EntryProps extends Entry {}
 
 const entrySchema = new Schema({
   createdAt: { type: Number },
