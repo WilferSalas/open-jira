@@ -1,5 +1,4 @@
 /* eslint-disable implicit-arrow-linebreak */
-/* eslint-disable import/prefer-default-export */
 // @packages
 import axios from 'axios';
 import { useQuery } from 'react-query';
@@ -8,6 +7,8 @@ import { useQuery } from 'react-query';
 import { Entry } from '../interfaces';
 
 const client = '/api';
+
+export const AddEntry = (entry: Entry) => axios.post<Entry>(`${client}/entries`, { entry }).then((res) => res.data);
 
 export const useFetchEntries = () =>
   useQuery<Entry[], Error>('getEntries', () =>
