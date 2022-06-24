@@ -1,5 +1,5 @@
 export interface Entry {
-  _id: string;
+  _id?: string;
   createdAt: number;
   description?: string;
   priority: 'low' | 'medium' | 'high';

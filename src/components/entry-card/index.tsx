@@ -17,7 +17,6 @@ import EntriesContext from '../../context/entries/EntriesContext';
 import UIContext from '../../context/ui/UIContext';
 import { Entry } from '../../interfaces';
 import { getTheme } from '../../utils';
-import { AddEntry } from '../../api';
 
 // @interfaces
 interface EntryCardProps {
@@ -44,7 +43,6 @@ const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
   const handleOnSaveIssue = (entry: Entry) => {
     onAddEntry(entry);
     onIsAddingEntry(false);
-    AddEntry(entry);
   };
 
   const handleOnDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -90,7 +88,7 @@ const EntryCard: FC<EntryCardProps> = ({ entries, title, type }) => {
         />
         {entriesData.map((entry) => (
           <CardItem
-            id={entry._id}
+            id={entry._id || ''}
             key={entry._id}
             priority={entry.priority}
             title={entry.title}

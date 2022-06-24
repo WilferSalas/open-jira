@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // @packages
 import { NextApiRequest, NextApiResponse } from 'next';
 
@@ -20,8 +21,7 @@ const getEntries = async (res: NextApiResponse<Data | Entry[]>) => {
   res.status(200).json(entries);
 };
 
-const addEntry = async (req: NextApiRequest, res: NextApiResponse<Data | Entry[]>) => {
-  delete req.body.entry._id;
+const addEntry = async (req: NextApiRequest, res: NextApiResponse) => {
   const newEntry = new EntryModel({ ...req.body.entry });
 
   try {
@@ -29,12 +29,26 @@ const addEntry = async (req: NextApiRequest, res: NextApiResponse<Data | Entry[]
     await newEntry.save();
     await disconnect();
 
-    res.status(201).json({ message: 'Entry added' });
+    res.status(201).json(newEntry);
   } catch (error) {
     await disconnect();
     console.log(error);
 
     res.status(500).json({ message: 'Error adding entry' });
+  }
+};
+
+const updateEntry = async (req: NextApiRequest, res: NextApiResponse) => {
+  try {
+    await connect();
+    await disconnect();
+
+    res.status(201).json({});
+  } catch (error) {
+    await disconnect();
+    console.log(error);
+
+    res.status(500).json({ message: 'Error updating entry' });
   }
 };
 
@@ -47,6 +61,8 @@ export default function handler(
       return getEntries(res);
     case 'POST':
       return addEntry(req, res);
+    case 'PUT':
+      return updateEntry(req, res);
     default:
       return res.status(404).json({ message: 'The endpoint does not exist' });
   }

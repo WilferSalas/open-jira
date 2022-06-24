@@ -13,7 +13,6 @@ import Tooltip from '@mui/material/Tooltip';
 import { FC } from 'react';
 import { red, green } from '@mui/material/colors';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { v4 as uuidv4 } from 'uuid';
 
 // @scripts
 import { Entry } from '../../interfaces';
@@ -48,7 +47,6 @@ const CardForm: FC<Props> = ({
 
   const handleOnSubmit: SubmitHandler<Inputs> = (data) => {
     const newEntry: Entry = {
-      _id: uuidv4(),
       createdAt: Date.now(),
       priority: data.priority,
       status: 'to-do',
