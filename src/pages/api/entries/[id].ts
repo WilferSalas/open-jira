@@ -7,6 +7,30 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import EntryModel from '../../../models/entry';
 import { connect, disconnect } from '../../../database/db';
 
+const getEntry = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { id } = req.query;
+
+  try {
+    await connect();
+
+    const entry = await EntryModel.findById(id);
+
+    if (!entry) {
+      await disconnect();
+      return res.status(404).json({ message: 'The entry does not exist' });
+    }
+
+    await disconnect();
+
+    return res.status(200).json(entry);
+  } catch (error) {
+    await disconnect();
+    console.log(error);
+
+    return res.status(400).json({ message: 'Error getting entry' });
+  }
+};
+
 const updateEntry = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
 
@@ -45,6 +69,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   switch (req.method) {
+    case 'GET':
+      return getEntry(req, res);
     case 'PUT':
       return updateEntry(req, res);
     default:
