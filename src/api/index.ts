@@ -8,7 +8,10 @@ import { Entry } from '../interfaces';
 
 const client = '/api';
 
-export const AddEntry = (entry: Entry) => axios.post<Entry>(`${client}/entries`, { entry }).then((res) => res.data);
+export const addEntry = (entry: Entry) => axios.post<Entry>(`${client}/entries`, { entry }).then((res) => res.data);
+
+export const updateEntry = (id: Entry['_id'], status: Entry['status']) =>
+  axios.put<Entry>(`${client}/entries/${id}`, { status }).then((res) => res.data);
 
 export const useFetchEntries = () =>
   useQuery<Entry[], Error>('getEntries', () =>

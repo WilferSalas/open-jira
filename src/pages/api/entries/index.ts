@@ -18,7 +18,7 @@ const getEntries = async (res: NextApiResponse<Data | Entry[]>) => {
 
   await disconnect();
 
-  res.status(200).json(entries);
+  return res.status(200).json(entries);
 };
 
 const addEntry = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -29,40 +29,21 @@ const addEntry = async (req: NextApiRequest, res: NextApiResponse) => {
     await newEntry.save();
     await disconnect();
 
-    res.status(201).json(newEntry);
+    return res.status(201).json(newEntry);
   } catch (error) {
     await disconnect();
     console.log(error);
 
-    res.status(500).json({ message: 'Error adding entry' });
+    return res.status(500).json({ message: 'Error adding entry' });
   }
 };
 
-const updateEntry = async (req: NextApiRequest, res: NextApiResponse) => {
-  try {
-    await connect();
-    await disconnect();
-
-    res.status(201).json({});
-  } catch (error) {
-    await disconnect();
-    console.log(error);
-
-    res.status(500).json({ message: 'Error updating entry' });
-  }
-};
-
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data | Entry[]>,
-) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
       return getEntries(res);
     case 'POST':
       return addEntry(req, res);
-    case 'PUT':
-      return updateEntry(req, res);
     default:
       return res.status(404).json({ message: 'The endpoint does not exist' });
   }

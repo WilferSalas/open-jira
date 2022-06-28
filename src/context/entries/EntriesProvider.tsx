@@ -5,7 +5,7 @@ import { useReducer, useMemo, useEffect } from 'react';
 import EntriesContext from './EntriesContext';
 import INITIAL_STATE from '../../config/state/initial-state.json';
 import { Children, Entry } from '../../interfaces';
-import { AddEntry, useFetchEntries } from '../../api';
+import { addEntry, updateEntry, useFetchEntries } from '../../api';
 import entriesReducer,
 {
   ADD_ENTRY,
@@ -27,15 +27,20 @@ const EntriesProvider = ({ children }: Children) => {
 
   const onAddEntry = async (newEntry: Entry) => {
     try {
-      const response = await AddEntry(newEntry);
+      const response = await addEntry(newEntry);
       dispatch({ type: ADD_ENTRY, payload: response });
     } catch (error) {
-      // TO-DO: add logic to show error to the user\
+      // TO-DO: add logic to show error to the user
     }
   };
 
-  const onUpdateStatus = (id: Entry['_id'], status: Entry['status']) => {
-    dispatch({ type: UPDATE_STATUS, payload: { id, status } });
+  const onUpdateStatus = async (id: Entry['_id'], status: Entry['status']) => {
+    try {
+      const response = await updateEntry(id, status);
+      dispatch({ type: UPDATE_STATUS, payload: { id: response._id, status: response.status } });
+    } catch (error) {
+      // TO-DO: add logic to show error to the user
+    }
   };
 
   const contextValue = useMemo(() => ({
