@@ -4,11 +4,13 @@ import KeyboardCapslockIcon from '@mui/icons-material/KeyboardCapslock';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { FC, DragEvent, useContext } from 'react';
 import { indigo, red } from '@mui/material/colors';
 
 // @scripts
+import CardMenu from './CardMenu';
 import UIContext from '../../context/ui/UIContext';
 import { IconsObject } from '../../interfaces';
 
@@ -53,7 +55,14 @@ const CardItem: FC<Props> = ({ id, title, priority }) => {
         transition: 'all .3s',
       }}
     >
-      <Typography sx={{ marginLeft: 0.7 }}>{title}</Typography>
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+      >
+        <Typography sx={{ marginLeft: 0.7 }}>{title}</Typography>
+        <CardMenu />
+      </Stack>
       <Box sx={{ position: 'absolute', bottom: 0 }}>
         {priorityIcons[priority]}
       </Box>
