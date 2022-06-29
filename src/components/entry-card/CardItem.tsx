@@ -6,8 +6,13 @@ import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { FC, DragEvent, useContext } from 'react';
 import { indigo, red } from '@mui/material/colors';
+import {
+  DragEvent,
+  FC,
+  useContext,
+  useState,
+} from 'react';
 
 // @scripts
 import CardMenu from './CardMenu';
@@ -29,6 +34,9 @@ export const priorityIcons: IconsObject = {
 
 const CardItem: FC<Props> = ({ id, title, priority }) => {
   const { isDragging, onDragging } = useContext(UIContext);
+
+  const [showCardMenu, setShowCardMenu] = useState<Boolean>(false);
+
   const handleOnStartDrag = (event: DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('text', id);
     onDragging(true);
@@ -38,12 +46,18 @@ const CardItem: FC<Props> = ({ id, title, priority }) => {
     onDragging(false);
   };
 
+  const handleOnShowMenu = (value: boolean) => {
+    setShowCardMenu(value);
+  };
+
   return (
     <Paper
       component="div"
       draggable
       onDragEnd={handleOnEndDrag}
       onDragStart={handleOnStartDrag}
+      onMouseEnter={() => handleOnShowMenu(true)}
+      onMouseLeave={() => handleOnShowMenu(false)}
       variant="outlined"
       sx={{
         cursor: 'pointer',
@@ -59,9 +73,12 @@ const CardItem: FC<Props> = ({ id, title, priority }) => {
         alignItems="center"
         direction="row"
         justifyContent="space-between"
+        sx={{ height: 30 }}
       >
         <Typography sx={{ marginLeft: 0.7 }}>{title}</Typography>
-        <CardMenu />
+        {showCardMenu && (
+          <CardMenu />
+        )}
       </Stack>
       <Box sx={{ position: 'absolute', bottom: 0 }}>
         {priorityIcons[priority]}

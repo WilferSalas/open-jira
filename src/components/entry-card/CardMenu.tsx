@@ -4,14 +4,17 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { useState, MouseEvent } from 'react';
+import { FC, useState, MouseEvent } from 'react';
 
-const CardMenu = () => {
+const CardMenu: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
   const open = Boolean(anchorEl);
+
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -33,6 +36,7 @@ const CardMenu = () => {
         PaperProps={{
           style: {
             width: '15ch',
+            padding: 0,
           },
         }}
       >
