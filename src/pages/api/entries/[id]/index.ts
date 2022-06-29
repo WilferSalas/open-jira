@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 // @packages
-import mongoose from 'mongoose';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 // @scripts
-import EntryModel from '../../../models/entry';
-import { connect, disconnect } from '../../../database/db';
+import EntryModel from '../../../../models/entry';
+import { connect, disconnect } from '../../../../database/db';
 
 const getEntry = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id } = req.query;
@@ -62,12 +61,6 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query;
-
-  if (!mongoose.isValidObjectId(id)) {
-    return res.status(400).json({ message: `The id is not correct: ${id}` });
-  }
-
   switch (req.method) {
     case 'GET':
       return getEntry(req, res);
