@@ -34,7 +34,6 @@ export const priorityIcons: IconsObject = {
 
 const CardItem: FC<Props> = ({ id, title, priority }) => {
   const { isDragging, onDragging } = useContext(UIContext);
-
   const [showCardMenu, setShowCardMenu] = useState<Boolean>(false);
 
   const handleOnStartDrag = (event: DragEvent<HTMLDivElement>) => {

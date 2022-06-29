@@ -66,7 +66,7 @@ const deleteEntry = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     await connect();
 
-    const entry = await EntryModel.findByIdAndDelete(id);
+    const entry = await EntryModel.findByIdAndRemove(id);
 
     if (!entry) {
       await disconnect();
