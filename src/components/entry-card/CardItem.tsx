@@ -77,7 +77,7 @@ const CardItem: FC<Props> = ({ id, title, priority }) => {
       >
         <Typography sx={{ marginLeft: 0.7 }}>{title}</Typography>
         {showCardMenu && (
-          <CardMenu />
+          <CardMenu entryId={id} />
         )}
       </Stack>
       <Box sx={{ position: 'absolute', bottom: 0 }}>

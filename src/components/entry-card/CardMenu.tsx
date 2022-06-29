@@ -1,12 +1,25 @@
-// @scripts
+// @packages
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { FC, useState, MouseEvent } from 'react';
+import {
+  FC,
+  MouseEvent,
+  useContext,
+  useState,
+} from 'react';
 
-const CardMenu: FC = () => {
+// @scripts
+import EntriesContext from '../../context/entries/EntriesContext';
+
+interface CardMenuProps {
+  entryId: string,
+}
+
+const CardMenu: FC<CardMenuProps> = ({ entryId }) => {
+  const { onDeleteEntry } = useContext(EntriesContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
@@ -17,6 +30,10 @@ const CardMenu: FC = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleOnDelete = () => {
+    onDeleteEntry(entryId);
   };
 
   return (
@@ -40,7 +57,9 @@ const CardMenu: FC = () => {
           },
         }}
       >
-        <MenuItem>Delete</MenuItem>
+        <MenuItem onClick={handleOnDelete}>
+          Delete
+        </MenuItem>
       </Menu>
     </Box>
   );

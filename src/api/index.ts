@@ -13,6 +13,9 @@ export const addEntry = (entry: Entry) => axios.post<Entry>(`${client}/entries`,
 export const updateEntry = (id: Entry['_id'], status: Entry['status']) =>
   axios.put<Entry>(`${client}/entries/${id}`, { status }).then((res) => res.data);
 
+export const deleteEntry = (id: Entry['_id']) =>
+  axios.put<Entry>(`${client}/entries/${id}`).then((res) => res.data);
+
 export const useFetchEntries = () =>
   useQuery<Entry[], Error>('getEntries', () =>
     axios.get<Entry[]>(`${client}/entries`).then((res) => res.data));
