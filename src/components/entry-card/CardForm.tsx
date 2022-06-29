@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Tooltip from '@mui/material/Tooltip';
 import { FC } from 'react';
 import { red, green } from '@mui/material/colors';
+import { styled } from '@mui/material/styles';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 
 // @scripts
@@ -30,6 +31,35 @@ interface Inputs {
   title: string,
   priority: Entry['priority'],
 }
+
+const CustomTextField = styled(TextField)({
+  '& label.Mui-focused': {
+    border: 'none',
+  },
+  '& .MuiInput-underline:after': {
+    border: 'none',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      border: 'none',
+    },
+    '&:hover fieldset': {
+      border: 'none',
+    },
+    '&.Mui-focused fieldset': {
+      border: 'none',
+    },
+  },
+});
+
+const CustomSelect = styled(Select)({
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+  '& .MuiSelect-select': {
+    height: '0 !important',
+  },
+});
 
 const CardForm: FC<Props> = ({
   onClose,
@@ -69,8 +99,9 @@ const CardForm: FC<Props> = ({
         sx={{
           minHeight: 100,
           my: 1,
-          p: 1,
           position: 'relative',
+          border: '1.5px solid',
+          borderColor: 'primary.main',
         }}
         variant="outlined"
       >
@@ -80,12 +111,12 @@ const CardForm: FC<Props> = ({
           name="title"
           rules={{ required: true }}
           render={(({ field }) => (
-            <TextField
+            <CustomTextField
               autoFocus
               error={Boolean(errors.title)}
               fullWidth
               helperText={Boolean(errors.title) && 'Add a title'}
-              placeholder="Add a title..."
+              placeholder="What needs to be done?"
               size="small"
               {...field}
               {...register('title', { required: true, minLength: 1 })}
@@ -104,25 +135,25 @@ const CardForm: FC<Props> = ({
             name="priority"
             render={(({ field }) => (
               <FormControl size="small">
-                <Select {...field}>
+                <CustomSelect {...field}>
                   {Object.keys(priorityIcons).map((icon) => (
                     <MenuItem key={icon} value={icon}>
                       {priorityIcons[icon]}
                     </MenuItem>
                   ))}
-                </Select>
+                </CustomSelect>
               </FormControl>
             ))}
           />
-          <Box>
+          <Box sx={{ marginRight: 1 }}>
             <Tooltip title="Cancel">
               <IconButton onClick={handleOnClose}>
-                <CloseIcon sx={{ color: red[700] }} />
+                <CloseIcon fontSize="small" sx={{ color: red[700] }} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Save">
               <IconButton type="submit">
-                <CheckIcon sx={{ color: green[700] }} />
+                <CheckIcon fontSize="small" sx={{ color: green[700] }} />
               </IconButton>
             </Tooltip>
           </Box>

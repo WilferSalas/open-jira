@@ -53,7 +53,7 @@ const CardItem: FC<Props> = ({ id, title, priority }) => {
         transition: 'all .3s',
       }}
     >
-      <Typography>{title}</Typography>
+      <Typography sx={{ marginLeft: 0.7 }}>{title}</Typography>
       <Box sx={{ position: 'absolute', bottom: 0 }}>
         {priorityIcons[priority]}
       </Box>
