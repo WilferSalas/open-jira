@@ -10,7 +10,6 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FC, useEffect } from 'react';
-import { GetServerSidePropsContext } from 'next';
 import { styled } from '@mui/material/styles';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
@@ -86,8 +85,8 @@ const CardEditItem: FC = () => {
     reset();
   }, [data]);
 
-  const handleOnSubmit: SubmitHandler<Inputs> = (formData) => {
-    console.log(formData);
+  const handleOnSubmit: SubmitHandler<Inputs> = () => {
+    // TODO: logic to update entry;
   };
 
   const handleOnCancel = () => {
@@ -176,15 +175,5 @@ const CardEditItem: FC = () => {
     </Container>
   );
 };
-
-// export const getServerSideProps: GetServerSidePropsContext = async ({ params }) => {
-//   const { id } = params as { id: string };
-
-//   return {
-//     props: {
-//       id,
-//     },
-//   };
-// };
 
 export default CardEditItem;
