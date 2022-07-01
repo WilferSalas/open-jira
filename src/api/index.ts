@@ -16,6 +16,13 @@ export const updateEntry = (id: Entry['_id'], status: Entry['status']) =>
 export const deleteEntry = (id: Entry['_id']) =>
   axios.delete<Entry>(`${client}/entries/${id}`).then((res) => res.data);
 
+export const getEntry = (id: string) =>
+  axios.get<Entry>(`${client}/entries/${id}`).then((res) => res.data);
+
 export const useFetchEntries = () =>
   useQuery<Entry[], Error>('getEntries', () =>
     axios.get<Entry[]>(`${client}/entries`).then((res) => res.data));
+
+export const useFetchEntry = (id: string) =>
+  useQuery<Entry, Error>('getEntry', () =>
+    axios.get<Entry>(`${client}/entries/${id}`).then((res) => res.data));

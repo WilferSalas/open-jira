@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { indigo, red } from '@mui/material/colors';
+import { useRouter } from 'next/router';
 import {
   DragEvent,
   FC,
@@ -33,8 +34,10 @@ export const priorityIcons: IconsObject = {
 };
 
 const CardItem: FC<Props> = ({ id, title, priority }) => {
-  const { isDragging, onDragging } = useContext(UIContext);
   const [showCardMenu, setShowCardMenu] = useState<Boolean>(false);
+
+  const { isDragging, onDragging } = useContext(UIContext);
+  const { push } = useRouter();
 
   const handleOnStartDrag = (event: DragEvent<HTMLDivElement>) => {
     event.dataTransfer.setData('text', id);
@@ -49,10 +52,15 @@ const CardItem: FC<Props> = ({ id, title, priority }) => {
     setShowCardMenu(value);
   };
 
+  const handleOnNavigate = () => {
+    push(`/entry/${id}`);
+  };
+
   return (
     <Paper
       component="div"
       draggable
+      onClick={handleOnNavigate}
       onDragEnd={handleOnEndDrag}
       onDragStart={handleOnStartDrag}
       onMouseEnter={() => handleOnShowMenu(true)}
