@@ -34,8 +34,9 @@ const CardMenu: FC<CardMenuProps> = ({ entryId }) => {
     event.stopPropagation();
   };
 
-  const handleOnDelete = () => {
+  const handleOnDelete = (event: MouseEvent<HTMLElement>) => {
     onDeleteEntry(entryId);
+    event.stopPropagation();
   };
 
   return (
