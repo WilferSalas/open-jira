@@ -45,7 +45,7 @@ const NotFound: FC = () => {
         <Button
           onClick={handleOnRedirect}
           startIcon={<ArrowBackIcon />}
-          sx={{ pl: 6 }}
+          sx={{ ml: 5 }}
         >
           Return Home
         </Button>
