@@ -45,7 +45,7 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const updatedEntry = await EntryModel.findByIdAndUpdate(
       id,
-      { ...req.body },
+      { ...req.body.entry },
       { runValidators: true, new: true },
     );
 

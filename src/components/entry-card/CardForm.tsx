@@ -78,6 +78,7 @@ const CardForm: FC<Props> = ({
   const handleOnSubmit: SubmitHandler<Inputs> = (data) => {
     const newEntry: Entry = {
       createdAt: Date.now(),
+      description: '',
       priority: data.priority,
       status: 'to-do',
       title: data.title,

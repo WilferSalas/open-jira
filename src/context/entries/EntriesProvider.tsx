@@ -1,5 +1,6 @@
 // @packages
 import { useReducer, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 // #scripts
 import EntriesContext from './EntriesContext';
@@ -9,6 +10,7 @@ import {
   addEntry,
   deleteEntry,
   updateEntry,
+  updateStatus,
   useFetchEntries,
 } from '../../api';
 import entriesReducer,
@@ -16,6 +18,7 @@ import entriesReducer,
   ADD_ENTRY,
   EntriesState,
   UPDATE_ENTRIES,
+  UPDATE_ENTRY,
   UPDATE_STATUS,
 } from './entriesReducer';
 
@@ -24,6 +27,7 @@ const initialState: EntriesState = INITIAL_STATE.entries;
 const EntriesProvider = ({ children }: Children) => {
   const [state, dispatch] = useReducer(entriesReducer, initialState);
 
+  const { push } = useRouter();
   const { data } = useFetchEntries();
 
   useEffect(() => {
@@ -48,9 +52,19 @@ const EntriesProvider = ({ children }: Children) => {
     }
   };
 
+  const onUpdateEntry = async (id: Entry['_id'], entry: Entry) => {
+    try {
+      const response = await updateEntry(id, entry);
+      dispatch({ type: UPDATE_ENTRY, payload: { id: response._id, entry: response } });
+      push('/');
+    } catch (error) {
+      // TO-DO: add logic to show error to the user
+    }
+  };
+
   const onUpdateStatus = async (id: Entry['_id'], status: Entry['status']) => {
     try {
-      const response = await updateEntry(id, status);
+      const response = await updateStatus(id, status);
       dispatch({ type: UPDATE_STATUS, payload: { id: response._id, status: response.status } });
     } catch (error) {
       // TO-DO: add logic to show error to the user
@@ -61,6 +75,7 @@ const EntriesProvider = ({ children }: Children) => {
     entries: state.entries,
     onAddEntry,
     onDeleteEntry,
+    onUpdateEntry,
     onUpdateStatus,
   }), [state]);
 

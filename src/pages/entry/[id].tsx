@@ -9,7 +9,7 @@ import Select from '@mui/material/Select';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useContext } from 'react';
 import { GetServerSideProps } from 'next';
 import { dehydrate, QueryClient, useQueryClient } from 'react-query';
 import { styled } from '@mui/material/styles';
@@ -22,6 +22,7 @@ import { Entry } from '../../interfaces';
 import { priorityIcons } from '../../components/entry-card/CardItem';
 import { getEntry, useFetchEntry } from '../../api';
 import NotFound from '../../components/not-found';
+import EntriesContext from '../../context/entries/EntriesContext';
 
 interface Inputs {
   title: string,
@@ -74,6 +75,7 @@ interface CardEditItemProps {
 
 const CardEditItem: FC<CardEditItemProps> = ({ id }) => {
   const { data, error, isLoading } = useFetchEntry(id);
+  const { onUpdateEntry } = useContext(EntriesContext);
   const { push } = useRouter();
 
   const queryClient = useQueryClient();
@@ -89,8 +91,8 @@ const CardEditItem: FC<CardEditItemProps> = ({ id }) => {
     queryClient.removeQueries('getEntry');
   }, []);
 
-  const handleOnSubmit: SubmitHandler<Inputs> = () => {
-    // TODO: for logic to update
+  const handleOnSubmit: SubmitHandler<Inputs> = (formData) => {
+    onUpdateEntry(id, formData);
   };
 
   const handleOnCancel = () => {
