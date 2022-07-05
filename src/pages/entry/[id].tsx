@@ -11,16 +11,16 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FC, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
+import { dehydrate, QueryClient, useQueryClient } from 'react-query';
 import { styled } from '@mui/material/styles';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 
 // @scripts
 import Loading from '../../components/loading';
 import { Entry } from '../../interfaces';
 import { priorityIcons } from '../../components/entry-card/CardItem';
-import { useFetchEntry } from '../../api';
+import { getEntry, useFetchEntry } from '../../api';
 import NotFound from '../../components/not-found';
 
 interface Inputs {
@@ -187,11 +187,16 @@ const CardEditItem: FC<CardEditItemProps> = ({ id }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const queryClient = new QueryClient();
+
   const { id } = params as { id: string };
+
+  await queryClient.prefetchQuery('getEntry', () => getEntry(id));
 
   return {
     props: {
       id,
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };

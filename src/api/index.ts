@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 // @interfaces
 import { Entry } from '../interfaces';
 
-const client = '/api';
+const client = 'http://localhost:3000/api';
 
 export const addEntry = (entry: Entry) => axios.post<Entry>(`${client}/entries`, { entry }).then((res) => res.data);
 

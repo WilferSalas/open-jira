@@ -4,7 +4,7 @@ import Head from 'next/head';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
@@ -59,14 +59,16 @@ const MyApp = (props: MyAppProps) => {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
-          <EntriesProvider>
-            <UIProvider>
-              <Layout onToggleTheme={onToggleTheme}>
-                <Component {...pageProps} />
-                <ReactQueryDevtools initialIsOpen={false} />
-              </Layout>
-            </UIProvider>
-          </EntriesProvider>
+          <Hydrate state={pageProps.dehydratedState}>
+            <EntriesProvider>
+              <UIProvider>
+                <Layout onToggleTheme={onToggleTheme}>
+                  <Component {...pageProps} />
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </Layout>
+              </UIProvider>
+            </EntriesProvider>
+          </Hydrate>
         </QueryClientProvider>
       </ThemeProvider>
     </CacheProvider>
