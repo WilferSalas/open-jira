@@ -26,10 +26,12 @@ const CardMenu: FC<CardMenuProps> = ({ entryId }) => {
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+    event.stopPropagation();
   };
 
-  const handleClose = () => {
+  const handleClose = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(null);
+    event.stopPropagation();
   };
 
   const handleOnDelete = () => {

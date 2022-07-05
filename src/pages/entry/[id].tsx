@@ -10,14 +10,18 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FC, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import { styled } from '@mui/material/styles';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
+import { useQueryClient } from 'react-query';
 import { useRouter } from 'next/router';
 
 // @scripts
-import { useFetchEntry } from '../../api';
-import { priorityIcons } from '../../components/entry-card/CardItem';
+import Loading from '../../components/loading';
 import { Entry } from '../../interfaces';
+import { priorityIcons } from '../../components/entry-card/CardItem';
+import { useFetchEntry } from '../../api';
+import NotFound from '../../components/not-found';
 
 interface Inputs {
   title: string,
@@ -27,13 +31,16 @@ interface Inputs {
 
 const CustomTextField = styled(TextField)({
   '&:hover': {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
   },
   '& label.Mui-focused': {
     border: 'none',
   },
   '& .MuiOutlinedInput-input': {
-    paddingLeft: 5,
+    paddingLeft: 3,
+  },
+  '& .MuiInputBase-multiline': {
+    paddingLeft: 0,
   },
   '& .MuiInput-underline:after': {
     border: 'none',
@@ -57,41 +64,41 @@ const CustomSelect = styled(Select)({
   },
   '& .MuiSelect-select': {
     height: '0 !important',
-    paddingLeft: 0,
+    paddingLeft: 1,
   },
 });
 
-const CardEditItem: FC = () => {
-  const { query: { id } } = useRouter();
+interface CardEditItemProps {
+  id: string,
+}
 
-  const { data } = useFetchEntry(id as string || '');
+const CardEditItem: FC<CardEditItemProps> = ({ id }) => {
+  const { data, error, isLoading } = useFetchEntry(id);
   const { push } = useRouter();
+
+  const queryClient = useQueryClient();
 
   const {
     control,
     formState: { errors, isDirty },
     handleSubmit,
     register,
-    reset,
-  } = useForm<Inputs>(({
-    defaultValues: {
-      title: data?.title,
-      description: data?.description || '',
-      priority: data?.priority,
-    },
-  }));
+  } = useForm<Inputs>();
 
   useEffect(() => () => {
-    reset();
-  }, [data]);
+    queryClient.removeQueries('getEntry');
+  }, []);
 
   const handleOnSubmit: SubmitHandler<Inputs> = () => {
-    // TODO: logic to update entry;
+    // TODO: for logic to update
   };
 
   const handleOnCancel = () => {
     push('/');
   };
+
+  if (!data && isLoading) return <Loading size={50} />;
+  if (error) return <NotFound />;
 
   return (
     <Container maxWidth="md" sx={{ my: 2 }}>
@@ -102,6 +109,7 @@ const CardEditItem: FC = () => {
           </Typography>
           <Controller
             control={control}
+            defaultValue={data?.title}
             name="title"
             rules={{ required: true }}
             render={(({ field }) => (
@@ -123,10 +131,12 @@ const CardEditItem: FC = () => {
           </Typography>
           <Controller
             control={control}
+            defaultValue={data?.description}
             name="description"
             render={(({ field }) => (
               <CustomTextField
                 fullWidth
+                multiline
                 placeholder="Add a description..."
                 size="small"
                 {...field}
@@ -140,7 +150,7 @@ const CardEditItem: FC = () => {
           </Typography>
           <Controller
             control={control}
-            defaultValue="medium"
+            defaultValue={data?.priority}
             name="priority"
             render={(({ field }) => (
               <FormControl size="small">
@@ -174,6 +184,16 @@ const CardEditItem: FC = () => {
       </Paper>
     </Container>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { id } = params as { id: string };
+
+  return {
+    props: {
+      id,
+    },
+  };
 };
 
 export default CardEditItem;
