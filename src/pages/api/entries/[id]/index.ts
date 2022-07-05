@@ -43,9 +43,11 @@ const updateEntry = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({ message: `There is no entry with that id: ${id}` });
     }
 
+    const entry = req.body.entry || req.body;
+
     const updatedEntry = await EntryModel.findByIdAndUpdate(
       id,
-      { ...req.body.entry },
+      { ...entry },
       { runValidators: true, new: true },
     );
 
