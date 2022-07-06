@@ -1,4 +1,4 @@
-# Open Jirea
+# Open Jira
 
 ---
 
