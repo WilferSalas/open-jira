@@ -6,6 +6,7 @@ import { AppProps } from 'next/app';
 import { CacheProvider, EmotionCache } from '@emotion/react';
 import { QueryClient, QueryClientProvider, Hydrate } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { SnackbarProvider } from 'notistack';
 import { ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 
@@ -60,14 +61,16 @@ const MyApp = (props: MyAppProps) => {
         <CssBaseline />
         <QueryClientProvider client={queryClient}>
           <Hydrate state={pageProps.dehydratedState}>
-            <EntriesProvider>
-              <UIProvider>
-                <Layout onToggleTheme={onToggleTheme}>
-                  <Component {...pageProps} />
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </Layout>
-              </UIProvider>
-            </EntriesProvider>
+            <SnackbarProvider maxSnack={1}>
+              <EntriesProvider>
+                <UIProvider>
+                  <Layout onToggleTheme={onToggleTheme}>
+                    <Component {...pageProps} />
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </Layout>
+                </UIProvider>
+              </EntriesProvider>
+            </SnackbarProvider>
           </Hydrate>
         </QueryClientProvider>
       </ThemeProvider>

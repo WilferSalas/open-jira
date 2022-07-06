@@ -23,6 +23,7 @@
     "clsx": "^1.1.1",
     "mongoose": "^6.3.6",
     "next": "latest",
+    "notistack": "^2.0.5",
     "react": "latest",
     "react-dom": "latest",
     "react-hook-form": "^7.31.2",

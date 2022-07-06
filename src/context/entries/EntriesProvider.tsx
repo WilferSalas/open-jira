@@ -1,6 +1,7 @@
 // @packages
 import { useReducer, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 
 // #scripts
 import EntriesContext from './EntriesContext';
@@ -27,8 +28,9 @@ const initialState: EntriesState = INITIAL_STATE.entries;
 const EntriesProvider = ({ children }: Children) => {
   const [state, dispatch] = useReducer(entriesReducer, initialState);
 
-  const { push } = useRouter();
   const { data } = useFetchEntries();
+  const { enqueueSnackbar } = useSnackbar();
+  const { push } = useRouter();
 
   useEffect(() => {
     dispatch({ type: UPDATE_ENTRIES, payload: data || [] });
@@ -38,8 +40,23 @@ const EntriesProvider = ({ children }: Children) => {
     try {
       const response = await addEntry(newEntry);
       dispatch({ type: ADD_ENTRY, payload: response });
+      enqueueSnackbar('Entry created', {
+        variant: 'success',
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+      });
     } catch (error) {
-      // TO-DO: add logic to show error to the user
+      enqueueSnackbar('Error creating entry', {
+        variant: 'error',
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+      });
     }
   };
 
@@ -47,8 +64,23 @@ const EntriesProvider = ({ children }: Children) => {
     try {
       await deleteEntry(id);
       dispatch({ type: UPDATE_STATUS, payload: { id } });
+      enqueueSnackbar('Entry deleted', {
+        variant: 'success',
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+      });
     } catch (error) {
-      // TO-DO: add logic to show error to the user
+      enqueueSnackbar('Error deleting entry', {
+        variant: 'error',
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+      });
     }
   };
 
@@ -57,8 +89,23 @@ const EntriesProvider = ({ children }: Children) => {
       const response = await updateEntry(id, entry);
       dispatch({ type: UPDATE_ENTRY, payload: { id: response._id, entry: response } });
       push('/');
+      enqueueSnackbar('Entry updated', {
+        variant: 'success',
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+      });
     } catch (error) {
-      // TO-DO: add logic to show error to the user
+      enqueueSnackbar('Error updating entry', {
+        variant: 'error',
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+      });
     }
   };
 
@@ -67,7 +114,14 @@ const EntriesProvider = ({ children }: Children) => {
       const response = await updateStatus(id, status);
       dispatch({ type: UPDATE_STATUS, payload: { id: response._id, status: response.status } });
     } catch (error) {
-      // TO-DO: add logic to show error to the user
+      enqueueSnackbar('Error updating status entry', {
+        variant: 'error',
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'center',
+        },
+      });
     }
   };
 
