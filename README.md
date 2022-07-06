@@ -1,4 +1,4 @@
-# Open Jirea -- Project in Progress
+# Open Jirea
 
 ---
 
