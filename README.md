@@ -6,8 +6,6 @@
 
 Project made with React, TypeScript and MUI
 
-Site deployed with Vercel: https://open-jira-wilfersalas.vercel.app/
-
 # Requeriments:
 
 - [Git](https://git-scm.com/)
