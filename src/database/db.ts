@@ -6,7 +6,6 @@ const mongoConection = {
 
 export const connect = async () => {
   if (mongoConection.isConected) {
-    console.log('Connected');
     return;
   }
 
@@ -14,7 +13,6 @@ export const connect = async () => {
     mongoConection.isConected = mongoose.connections[0].readyState;
 
     if (mongoConection.isConected) {
-      console.log('Using previuos conection');
       return;
     }
 
@@ -23,7 +21,6 @@ export const connect = async () => {
 
   await mongoose.connect(process.env.MONGO_URL || '');
   mongoConection.isConected = 1;
-  console.log('Connected to mongoDB', process.env.MONGO_URL);
 };
 
 export const disconnect = async () => {
@@ -31,5 +28,5 @@ export const disconnect = async () => {
   if (!mongoConection.isConected) return;
 
   await mongoose.disconnect();
-  console.log('Disconnected');
+  mongoConection.isConected = 0;
 };
